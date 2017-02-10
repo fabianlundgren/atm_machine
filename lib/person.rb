@@ -5,6 +5,7 @@
   def initialize(attrs = {})
     @name = set_name(attrs[:name])
     @cash = 0
+    @account = nil
   end
 
   def create_account
@@ -15,7 +16,7 @@
     @account == nil ? missing_account : deposit_funds(amount)
   end
 
-  def get_cash_from_atm(args = {})
+  def withdraw(args = {})
     @account == nil ? missing_account : withdraw_funds(args)
   end
 
@@ -26,7 +27,7 @@
     @account.balance += amount
   end
 
-  def get_cash_from_atm(args)
+  def withdraw_funds(args)
     args[:atm] == nil ? missing_atm : atm = args[:atm]
     account = @account
     amount = args[:amount]
@@ -39,7 +40,7 @@
     @cash += response[:amount]
   end
 
-  def set_name
+  def set_name(name)
     name == nil ? missing_name : name
   end
 

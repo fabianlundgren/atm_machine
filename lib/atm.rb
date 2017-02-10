@@ -5,11 +5,10 @@
     @funds = 1000
   end
 
-  def withdraw(amount, pin_code, account)
-
+def withdraw(amount, pin_code, account)
   case
   when insufficient_funds_in_account?(amount, account)
-    { status: true, message: 'insufficient funds', date: Date.today }
+    { status: false, message: 'insufficient funds', date: Date.today }
 
   when insufficient_funds_in_atm?(amount)
     { status: false, message: 'insufficient funds in ATM', date: Date.today }
@@ -26,17 +25,16 @@
   else
     perform_transaction(amount, account)
   end
-    end
-
+end
 
   private
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today
-    end
+  end
 
   def insufficient_funds_in_account?(amount, account)
-  amount > account.balance
+    amount > account.balance
   end
 
   def insufficient_funds_in_atm?(amount)
@@ -50,7 +48,10 @@
   def perform_transaction(amount, account)
   @funds -= amount
   account.balance = account.balance - amount
-  { status: true, message: 'success', date: Date.today, amount: amount, bills: add_bills(amount) }
+  { status: true,
+    message: 'success',
+    date: Date.today,
+    amount: amount, bills: add_bills(amount) }
   end
 
   def card_disabled?(account_status)

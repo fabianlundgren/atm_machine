@@ -1,3 +1,4 @@
+require 'Date'
   class Account
     attr_accessor :exp_date, :pin_code, :balance, :account_status, :owner
 
